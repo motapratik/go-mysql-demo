@@ -12,6 +12,7 @@ type Country struct {
 	Name string `json:"name"`
 }
 
+// selectQuery - Use to Call SQL Query
 func selectQuery(db *sql.DB) {
 	// Execute the query
 	results, err := db.Query("SELECT id, name FROM country")
@@ -26,7 +27,7 @@ func selectQuery(db *sql.DB) {
 		if err != nil {
 			panic(err.Error()) // proper error handling instead of panic in your app
 		}
-		// and then print out the tag's Name attribute
+		// and then print out ID and Name of Country
 		fmt.Printf("ID=%d Name=%s\n", c.ID, c.Name)
 	}
 }
@@ -51,6 +52,7 @@ func selectProcedure(db *sql.DB) {
 	}
 }
 
+// insertProcedure - Use to Call SQL Insert Stored Procedure
 func insertProcedure(db *sql.DB, id int, name string) {
 	// perform a db.Query insert
 	insert, err := db.Query("call InsertCountry(?,?)", id, name)
@@ -66,13 +68,12 @@ func insertProcedure(db *sql.DB, id int, name string) {
 func main() {
 
 	// Open connection to database
-	username := "root"
-	password := "admin"
-	hostname := "127.0.0.1"
+	username := "User-Name"
+	password := "Your-Password"
+	hostname := "127.0.0.1" // for localhost
 	port := "3306"
-	dbname := "testdb"
+	dbname := "Database-Name"
 
-	//username:password@tcp(127.0.0.1:3306)/test
 	db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", username, password, hostname, port, dbname))
 	if err != nil {
 		panic(err)
@@ -83,7 +84,7 @@ func main() {
 	fmt.Printf("========\n")
 	selectProcedure(db)
 	fmt.Printf("========\n")
-	insertProcedure(db, 4, "Germany")
+	insertProcedure(db, 4, "Germany") // for testing
 	fmt.Printf("========\n")
 	selectQuery(db)
 }
