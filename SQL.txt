@@ -1,0 +1,23 @@
+
+CREATE TABLE `country` (
+  `ID` int NOT NULL,
+  `Name` varchar(45) NOT NULL,
+  PRIMARY KEY (`ID`)
+)
+===============
+DELIMITER //
+CREATE PROCEDURE GetCountryList()
+BEGIN
+	SELECT *  FROM testdb.country;
+END //
+DELIMITER ;
+
+============
+DELIMITER //
+CREATE PROCEDURE InsertCountry(aID int, aName varchar(45))
+BEGIN
+	INSERT INTO country (ID, Name) VALUES (aID, aName); 
+END //
+DELIMITER ;
+=======
+call InsertCountry(3,'USA')
